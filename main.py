@@ -18,7 +18,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--images", type=str, help=u"the directory that has figures",required=True)
 parser.add_argument("--model",default="./data/figure-sepration-model-submitted-544.pb", type=str, help=u"model pb file. Default is ./data/figure-sepration-model-submitted-544.pb")
 parser.add_argument("--thresh",default=0.5, type=float, help=u"sub-figuere detection threshold. Default is 0.5")
-parser.add_argument("--output",default="./results", type=str, help=u"output directory ./results")
+parser.add_argument("--output_images",default="./results", type=str, help=u"output directory ./results")
+parser.add_argument("--output_json",default="./results", type=str, help=u"output directory ./results")
 parser.add_argument("--annotate",default=0, type=int, help=u"save annotation to the image or not. 1 is yes, 0 is no. Default is 0.")
 args = parser.parse_args()
 
@@ -65,10 +66,10 @@ with tf.Session(graph=graph) as sess:
 
             #if annotation is enabled, save the annotated image
             if annotate:
-                annotated_image_name=args.output+"/"+img_file+".annotated.png"
+                annotated_image_name=args.output_images+"/"+img_file+".annotated.png"
                 cv2.imwrite(annotated_image_name,annotated_image)
 
             #save output json
-            json_name=args.output+"/"+img_file+".json"
+            json_name=args.output_json+"/"+img_file+".json"
             with open(json_name, 'w') as f:
                 json.dump(sub_figures, f, sort_keys=True, indent=4)
